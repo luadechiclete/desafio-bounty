@@ -1,50 +1,69 @@
-# Welcome to your Expo app 👋
+# Water & Steps Tracker
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+App de acompanhamento de água e passos com interface animada, overlay de registro de água e barra de navegação inferior com efeito glassmorphism.
 
-## Get started
+![Demonstração do app](animation.gif)
 
-1. Install dependencies
+## Sobre o projeto
+
+Aplicativo mobile (Expo / React Native) com foco em:
+
+- **Registro de água** – overlay em formato de pílula que expande a partir do botão do copo; seletor de quantidade (oz) com ticker animado e slider; cartão flutuante com efeito de “ilha” na parte inferior.
+- **Dashboard de passos** – cards de resumo (Steps behind, vs yesterday), barras de progresso por dia e card principal com métricas (passos, distância, kcal, andares).
+- **Barra de navegação inferior** – pílula flutuante com efeito **vidro fosco** (glassmorphism / frosted glass) usando `expo-blur`, contendo a aba **Steps**.
+
+As animações são feitas com **react-native-reanimated** (abertura/fechamento do overlay, bounce do dashboard, transições do ticker e do conteúdo).
+
+## Tecnologias
+
+- [Expo](https://expo.dev) (~54) + [Expo Router](https://docs.expo.dev/router/introduction/) (file-based routing)
+- React Native + TypeScript
+- [react-native-reanimated](https://docs.swmansion.com/react-native-reanimated/) – animações
+- [expo-blur](https://docs.expo.dev/versions/latest/sdk/blur-view/) – BlurView para o menu inferior
+- [react-native-safe-area-context](https://github.com/th3rdwave/react-native-safe-area-context) – safe area
+- [@react-native-community/slider](https://github.com/callstack/react-native-slider) – slider no overlay de água
+
+## Como rodar
+
+1. Instalar dependências:
 
    ```bash
    npm install
    ```
 
-2. Start the app
+2. Iniciar o projeto:
 
    ```bash
    npx expo start
    ```
 
-In the output, you'll find options to open the app in a
+3. Abrir no simulador/emulador ou no Expo Go (QR code no terminal).
 
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
+## Estrutura principal
 
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
+| Caminho | Descrição |
+|--------|-----------|
+| `app/(tabs)/index.tsx` | Tela principal: título "Water", botão do copo, stats, barras de dias, card de passos e blur/bounce ao abrir o overlay |
+| `app/(tabs)/_layout.tsx` | Layout de abas usando a barra customizada |
+| `app/_layout.tsx` | Stack raiz + `WaterOverlayProvider` |
+| `components/WaterOverlay.tsx` | Contexto do overlay, animação de expansão (círculo → tela cheia), Ticker animado (número + oz), slider 8–18 oz, cartão flutuante com valor + "Add" |
+| `components/CustomTabBar.tsx` | Barra inferior em pílula com BlurView (glassmorphism), aba Steps ativa com ícone + texto |
 
-## Get a fresh project
+## Funcionalidades de UI/UX
 
-When you're ready, run:
+- **Overlay de água**: abre a partir do botão do copo; conteúdo (header, ícone central, cartão) aparece/desaparece em sincronia com a animação para não “espremer” no botão ao fechar.
+- **Ticker**: valor inteiro ou uma decimal (ex.: 12 ou 12.5); parte decimal some/aparece com animação de opacidade e largura; "oz" acompanha a largura do número (layout animado).
+- **Menu inferior**: pílula com `BlurView` (tint dark, intensity ~65), `borderRadius: 999` e `overflow: 'hidden'` para o efeito frosted glass no formato da pílula; posicionamento com safe area.
 
-```bash
-npm run reset-project
-```
+## Scripts
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+| Comando | Descrição |
+|--------|-----------|
+| `npm start` | Inicia o Expo |
+| `npm run ios` | Abre no simulador iOS |
+| `npm run android` | Abre no emulador Android |
+| `npm run lint` | Roda o lint |
 
-## Learn more
+## Licença
 
-To learn more about developing your project with Expo, look at the following resources:
-
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
-
-## Join the community
-
-Join our community of developers creating universal apps.
-
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+Projeto de uso privado.
